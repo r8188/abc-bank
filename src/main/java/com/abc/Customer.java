@@ -64,9 +64,9 @@ public class Customer {
 
         //Now total up all the transactions
         double total = 0.0;
-        for (Transaction t : a.transactions) {
-            s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n";
-            total += t.amount;
+        for (Transaction t : a.getTransactions()) {
+            s += "  " + (t.getAmount() < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.getAmount()) + "\n";
+            total += t.getAmount();
         }
         s += "Total " + toDollars(total);
         return s;
@@ -74,5 +74,20 @@ public class Customer {
 
     private String toDollars(double d){
         return String.format("$%,.2f", abs(d));
+    }
+    
+    //ideally we want to make this atomic and wrap it in one transaction
+    public synchronized boolean transfer(Account fromAccount,Account toAccount, double amount){
+    	boolean success=false;
+    	try{
+    			if(fromAccount.sumTransactions()>amount){
+    				fromAccount.withdraw(amount);
+    				toAccount.deposit(amount);
+    			}
+    			success=true;
+    	}catch(Exception e){
+    		success=false;
+    	}
+    	return success;
     }
 }
