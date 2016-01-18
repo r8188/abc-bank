@@ -1,19 +1,18 @@
-package com.abc;
+package com.abc.account;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Account {
+import com.abc.transaction.Transaction;
+import com.abc.util.DateProvider;
+import com.abc.util.DateUtil;
 
-	public static final int CHECKING = 0;
-	public static final int SAVINGS = 1;
-	public static final int MAXI_SAVINGS = 2;
+public abstract class AbstractAccount implements Account {
+
 	public static final String dFormat = "yyyyMMdd";
 	public static final int withdrawalDaysRule = 10;
-
-	private final int accountType;
-	private List<Transaction> transactions;
+	protected List<Transaction> transactions;
 
 	public List<Transaction> getTransactions() {
 		return transactions;
@@ -23,12 +22,6 @@ public class Account {
 		this.transactions = transactions;
 	}
 
-	public Account(int accountType) {
-		this.accountType = accountType;
-		this.transactions = new ArrayList<Transaction>();
-	}
-
-	// deposit with current date if no date is passed.
 	public void deposit(double amount) {
 		if (amount <= 0) {
 			throw new IllegalArgumentException("amount must be greater than zero");
@@ -45,7 +38,6 @@ public class Account {
 		}
 	}
 
-	// withdraw with current date if no date is passed.
 	public void withdraw(double amount) {
 		if (amount <= 0) {
 			throw new IllegalArgumentException("amount must be greater than zero");
@@ -84,24 +76,6 @@ public class Account {
 		return amount;
 	}
 
-	public double interestEarned(double amount) {
-		switch (accountType) {
-		case SAVINGS:
-			if (amount <= 1000)
-				return amount * 0.001;
-			else
-				return 1 + (amount - 1000) * 0.002;
-		case MAXI_SAVINGS:
-			if (checkIfWithdrawalExists(withdrawalDaysRule)) {
-				return amount * 0.001;
-			} else {
-				return amount * 0.05;
-			}
-		default: // checking
-			return amount * 0.001;
-		}
-	}
-
 	public double sumTransactions() {
 		double amount = 0.0;
 		for (Transaction t : transactions)
@@ -137,7 +111,6 @@ public class Account {
 		return trans;
 	}
 
-	// Assuming the last 10 days starting from today
 	public boolean checkIfWithdrawalExists(int noOfDays) {
 		boolean withdrawalFlag = false;
 		for (int i = noOfDays - 1; i > -1; i--) {
@@ -151,10 +124,6 @@ public class Account {
 			}
 		}
 		return withdrawalFlag;
-	}
-
-	public int getAccountType() {
-		return accountType;
 	}
 
 }

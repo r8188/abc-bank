@@ -1,7 +1,10 @@
-package com.abc;
+package com.abc.customer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.abc.account.Account;
+import com.abc.transaction.Transaction;
 
 import static java.lang.Math.abs;
 

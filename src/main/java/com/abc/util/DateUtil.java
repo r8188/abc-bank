@@ -1,4 +1,4 @@
-package com.abc;
+package com.abc.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

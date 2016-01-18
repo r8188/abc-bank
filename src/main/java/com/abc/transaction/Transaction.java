@@ -1,6 +1,9 @@
-package com.abc;
+package com.abc.transaction;
 
 import java.util.Date;
+
+import com.abc.util.DateProvider;
+import com.abc.util.DateUtil;
 
 public class Transaction {
 	private final double amount;
