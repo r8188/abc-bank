@@ -49,6 +49,9 @@ public class Account {
 	public void withdraw(double amount) {
 		if (amount <= 0) {
 			throw new IllegalArgumentException("amount must be greater than zero");
+		} else if (amount > sumTransactions()) {
+			throw new IllegalArgumentException(
+					"amount must be less than or equal to the balance: " + sumTransactions());
 		} else {
 			transactions.add(new Transaction(-amount));
 		}
@@ -57,6 +60,9 @@ public class Account {
 	public void withdraw(double amount, String dateString) {
 		if (amount <= 0) {
 			throw new IllegalArgumentException("amount must be greater than zero");
+		} else if (amount > sumTransactions()) {
+			throw new IllegalArgumentException(
+					"amount must be less than or equal to the balance: " + sumTransactions());
 		} else {
 			transactions.add(new Transaction(-amount, dateString, dFormat));
 		}
