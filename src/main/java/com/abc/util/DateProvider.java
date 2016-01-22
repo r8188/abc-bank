@@ -6,6 +6,9 @@ import java.util.Date;
 public class DateProvider {
 	private volatile static DateProvider instance = null;
 
+	private DateProvider() {
+	}
+
 	public static DateProvider getInstance() {
 		if (instance == null) {
 			synchronized (DateProvider.class) {
